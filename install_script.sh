@@ -59,6 +59,16 @@ echo "install Fullscreen Dashboard...."
 sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox -y
 sudo apt-get install --no-install-recommends chromium-browser -y
 
+echo "set config...."
+cat > /etc/X11/xorg.conf <<EOL
+Section  "ServerLayout"
+        Identifier     "Default Layout"
+        Screen      0  "Screen0" 0 0
+        InputDevice    "Mouse0" "CorePointer"
+        InputDevice    "Keyboard0" "CoreKeyboard"
+EndSection
+EOL
+
 echo "set wrapper...."
 sudo rm -rf /etc/X11/Xwrapper.config
 cat > /etc/X11/Xwrapper.config <<EOL
