@@ -5,7 +5,7 @@
 
 # HOW TO RUN THE SCRIPT
 
-# wget -q -O - https://raw.githubusercontent.com/BobbySlope/ext_display_hoobs/blob/main/install_script.sh | sudo bash -
+# wget -q -O - https://raw.githubusercontent.com/BobbySlope/ext_display_hoobs/main/install_script.sh | sudo bash -
 
 
 
