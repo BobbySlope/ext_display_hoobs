@@ -55,9 +55,33 @@ echo "----------------------------------------------------------------"
 echo "Autologin CLI Installed"
 echo "----------------------------------------------------------------"
 echo " "
-echo "Setup Autologin...."
+echo "Setup Fullscreen Dashboard...."
+sudo rm -rf /etc/xdg/openbox/autostart
+cat > /etc/xdg/openbox/autostart <<EOL
+# turn off display power management system
+xset s noblank        # turn off screen blanking
+xset s off            # turn off screen saver
 
+#chromium crash prevent
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
 
+# Run Chromium in kiosk mode
+chromium-browser  --noerrdialogs --disable-infobars --kiosk $KIOSK_URL --check-for-update-interval=31536000
+EOL
+
+sudo rm -rf /etc/xdg/openbox/environment
+cat > /etc/xdg/openbox/environment <<EOL
+KIOSK_URL=https://localhost
+EOL
+
+sudo rm -rf ~/.bash_profile
+cat > ~/.bash_profile <<EOL
+startx -- -nocursor
+EOL
+echo "----------------------------------------------------------------"
+echo "Setup Fullscreen Dashboard"
+echo "----------------------------------------------------------------"
 
 echo "rebooting now"
 echo "----------------------------------------------------------------"
