@@ -5,12 +5,12 @@
 
 # HOW TO RUN THE SCRIPT
 
-# wget -q -O - https://raw.githubusercontent.com/hoobs-org/HOOBS/main/scripts/watchdog.sh | sudo bash -
+# wget -q -O - https://raw.githubusercontent.com/BobbySlope/ext_display_hoobs/blob/main/install_script.sh | sudo bash -
 
 
 
 ##################################################################################################
-# hoobs-watchdog                                                                           #
+# ext_display_hoobs.                                                                             #
 # Copyright (C) 2022 HOOBS                                                                       #
 #                                                                                                #
 # This program is free software: you can redistribute it and/or modify                           #
@@ -29,43 +29,18 @@
 # Author: Bobby Slope     
 
 echo "----------------------------------------------------------------"
-echo "This script will Setup Watchdog for HOOBS"
+echo "This script will Setup the external Touchdisplay Widget for HOOBS"
 echo "----------------------------------------------------------------"
 echo " "
-echo "----------------------------------------------------------------"
-echo "This will automatically soft reboot your system if it got stuck"
-echo "----------------------------------------------------------------"
-echo "This Watchdog will prevent the need of reflash"
-echo "----------------------------------------------------------------"
-echo " "
-echo "Setup Watchdog...."
+echo "Setup Touchscreen...."
 sudo apt-get update --yes
-sudo apt-get install watchdog --yes
-sudo update-rc.d watchdog defaults
-cat > /etc/watchdog.conf <<EOL
-watchdog-device = /dev/watchdog
-watchdog-timeout = 15
-max-load-1 = 24
-min-memory = 1
-EOL
+sudo rm -rf LCD-show
+git clone https://github.com/goodtft/LCD-show.git
+sudo chmod -R 755 LCD-show
+cd LCD-show/
+sudo ./LCD35-show
 echo "----------------------------------------------------------------"
-echo "Watchdog installed"
-echo "----------------------------------------------------------------"
-echo "Setting up Service....."
-sudo systemctl daemon-reload
-sudo systemctl enable watchdog
-echo "----------------------------------------------------------------"
-echo "Service created."
-echo "----------------------------------------------------------------"
-echo "Starting Starting"
-sudo systemctl start watchdog
-echo "----------------------------------------------------------------"
-echo "use sudo journalctl -u watchdog.service to display the log"
-echo "----------------------------------------------------------------"
-echo "use :(){ :|:& };: to crash the system on purpose"
-echo "----------------------------------------------------------------"
-echo "Getting Status Status close with ctrl+c"
-echo "----------------------------------------------------------------"
+echo "Touchscreen Installed"
 echo "----------------------------------------------------------------"
 echo "rebooting now"
 echo "----------------------------------------------------------------"
