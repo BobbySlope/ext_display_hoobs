@@ -42,6 +42,23 @@ sudo ./LCD35-show
 echo "----------------------------------------------------------------"
 echo "Touchscreen Installed"
 echo "----------------------------------------------------------------"
+echo " "
+echo "Setup Autologin to CLI...."
+sudo mkdir /lib/systemd/system/getty@tty1.service.d/
+cat > /lib/systemd/system/getty@tty1.service.d/20-autologin.conf <<EOL
+#Autologin to Console
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin hoobs --noclear %I $TERM
+EOL
+echo "----------------------------------------------------------------"
+echo "Autologin CLI Installed"
+echo "----------------------------------------------------------------"
+echo " "
+echo "Setup Autologin...."
+
+
+
 echo "rebooting now"
 echo "----------------------------------------------------------------"
 sudo reboot
