@@ -55,33 +55,65 @@ echo "----------------------------------------------------------------"
 echo "Autologin CLI Installed"
 echo "----------------------------------------------------------------"
 echo " "
-echo "Setup Fullscreen Dashboard...."
+echo "install Fullscreen Dashboard...."
 sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit openbox -y
 sudo apt-get install --no-install-recommends chromium-browser -y
 
-sudo rm -rf /etc/xdg/openbox/autostart
-cat > /etc/xdg/openbox/autostart <<EOL
-# turn off display power management system
-xset s noblank        # turn off screen blanking
-xset s off            # turn off screen saver
-
-#chromium crash prevent
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
-
-# Run Chromium in kiosk mode
-chromium-browser  --noerrdialogs --disable-infobars --kiosk $KIOSK_URL --check-for-update-interval=31536000
+echo "set wrapper...."
+sudo rm -rf /etc/X11/Xwrapper.config
+cat > /etc/X11/Xwrapper.config <<EOL
+allowed_users=anybody
+needs_root_rights=yes
 EOL
 
-sudo rm -rf /etc/xdg/openbox/environment
-cat > /etc/xdg/openbox/environment <<EOL
-KIOSK_URL=http://localhost
+echo "add kiosk user...."
+useradd -m kiosk-user
+
+echo "add kiosk script...."
+sudo rm -rf /opt/kiosk.sh
+cat > /opt/kiosk.sh <<EOL
+#!/bin/sh
+xset dpms
+xset s noblank
+xset s 300
+openbox-session &
+chromium /
+--no-first-run /
+--disable /
+--disable-translate /
+--disable-infobars /
+--disable-suggestions-service /
+--disable-save-password-bubble /
+--start-maximized /
+--kiosk /
+--disable-session-crashed-bubble /
+--incognito /
+http://localhost
 EOL
 
-sudo rm -rf ~/.bash_profile
-cat > ~/.bash_profile <<EOL
-startx -- -nocursor
+echo "amake script executable...."
+sudo chmod 755 /opt/kiosk.sh
+
+
+echo "make service...."
+sudo rm -rf /etc/systemd/system/kiosk.service
+cat > /etc/systemd/system/kiosk.service <<EOL
+[Unit]
+Description=Kiosk
+
+[Service]
+Type=oneshot
+User=kiosk-user
+ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
+
+[Install]
+WantedBy=multi-user.target
 EOL
+
+echo "enable service...."
+
+sudo systemctl daemon-reload
+sudo systemctl enable kiosk
 echo "----------------------------------------------------------------"
 echo "Setup Fullscreen Dashboard"
 echo "----------------------------------------------------------------"
