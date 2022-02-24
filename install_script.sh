@@ -75,7 +75,7 @@ EOL
 
 sudo rm -rf /etc/xdg/openbox/environment
 cat > /etc/xdg/openbox/environment <<EOL
-KIOSK_URL=https://localhost
+KIOSK_URL=http://localhost
 EOL
 
 sudo rm -rf ~/.bash_profile
