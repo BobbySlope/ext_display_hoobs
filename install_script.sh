@@ -85,7 +85,7 @@ echo "set wrapper...."
 sudo rm -rf /etc/X11/Xwrapper.config
 cat > /etc/X11/Xwrapper.config <<EOL
 allowed_users=anybody
-needs_root_rights=yes
+needs_root_rights=no
 EOL
 
 echo "add kiosk script...."
@@ -110,7 +110,7 @@ chromium /
 http://localhost
 EOL
 
-echo "amake script executable...."
+echo "make script executable...."
 sudo chmod 755 /opt/kiosk.sh
 
 
