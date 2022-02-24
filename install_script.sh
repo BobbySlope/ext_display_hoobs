@@ -66,9 +66,6 @@ allowed_users=anybody
 needs_root_rights=yes
 EOL
 
-echo "add kiosk user...."
-useradd -m kiosk-user
-
 echo "add kiosk script...."
 sudo rm -rf /opt/kiosk.sh
 cat > /opt/kiosk.sh <<EOL
@@ -103,7 +100,7 @@ Description=Kiosk
 
 [Service]
 Type=oneshot
-User=kiosk-user
+User=hoobs
 ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
 
 [Install]
