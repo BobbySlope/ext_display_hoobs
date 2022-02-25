@@ -73,12 +73,29 @@ sudo apt-get install --no-install-recommends chromium-browser -y
 #EndSection
 #EOL
 
-echo "set wrapper...."
-sudo rm -rf /etc/X11/Xwrapper.config
-cat > /etc/X11/Xwrapper.config <<EOL
-allowed_users=anybody
-needs_root_rights=no
+#echo "set wrapper...."
+#sudo rm -rf /etc/X11/Xwrapper.config
+#cat > /etc/X11/Xwrapper.config <<EOL
+#allowed_users=anybody
+#needs_root_rights=no
+#EOL
+
+
+cat > /etc/xdg/openbox/autostart  <<EOL
+# Disable any form of screen saver / screen blanking / power management
+xset s off
+xset s noblank
+xset -dpms
+
+# Allow quitting the X server with CTRL-ATL-Backspace
+setxkbmap -option terminate:ctrl_alt_bksp
+
+# Start Chromium in kiosk mode
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+chromium-browser --disable-infobars --kiosk 'http://localhost'
 EOL
+
 
 echo "add kiosk script...."
 sudo rm -rf /opt/kiosk.sh
@@ -87,8 +104,8 @@ cat > /opt/kiosk.sh <<EOL
 xset dpms
 xset s noblank
 xset s 300
-openbox-session &
-chromium-browser --kiosk --incognito http://localhost
+openbox-session #&
+#chromium-browser --kiosk --incognito http://localhost
 EOL
 
 echo "make script executable...."
