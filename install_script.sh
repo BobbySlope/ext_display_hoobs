@@ -58,7 +58,8 @@ echo "----------------------------------------------------------------"
 echo " "
 echo "install Fullscreen Dashboard...."
 sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
-sudo apt-get install --no-install-recommends chromium-browser -y
+sudo apt-get install --no-install-recommends chromium -y
+sudo apt-get install --no-install-recommends libgl1-mesa-dri -y
 #sudo apt-get install lightdm -y
 
 #echo "set screen...."
@@ -97,40 +98,40 @@ chromium-browser --disable-infobars --kiosk 'http://localhost'
 EOL
 
 
-echo "add kiosk script...."
-sudo rm -rf /opt/kiosk.sh
-cat > /opt/kiosk.sh <<EOL
-#!/bin/sh
-xset dpms
-xset s noblank
-xset s 300
-openbox-session #&
-chromium-browser --kiosk --incognito http://localhost
-EOL
+#echo "add kiosk script...."
+#sudo rm -rf /opt/kiosk.sh
+#cat > /opt/kiosk.sh <<EOL
+##!/bin/sh
+#xset dpms
+#xset s noblank
+#xset s 300
+#openbox-session #&
+#chromium-browser --kiosk --incognito http://localhost
+#EOL
 
-echo "make script executable...."
-sudo chmod 755 /opt/kiosk.sh
+#echo "make script executable...."
+#sudo chmod 755 /opt/kiosk.sh
 
 
-echo "make service...."
-sudo rm -rf /etc/systemd/system/kiosk.service
-cat > /etc/systemd/system/kiosk.service <<EOL
-[Unit]
-Description=Kiosk
+#echo "make service...."
+#sudo rm -rf /etc/systemd/system/kiosk.service
+#cat > /etc/systemd/system/kiosk.service <<EOL
+#[Unit]
+#Description=Kiosk
+#
+#[Service]
+#Type=oneshot
+#User=hoobs
+#ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
+#
+#[Install]
+#WantedBy=multi-user.target
+#EOL
 
-[Service]
-Type=oneshot
-User=hoobs
-ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
+#echo "enable service...."
 
-[Install]
-WantedBy=multi-user.target
-EOL
-
-echo "enable service...."
-
-sudo systemctl daemon-reload
-sudo systemctl enable kiosk
+#sudo systemctl daemon-reload
+#sudo systemctl enable kiosk
 echo "----------------------------------------------------------------"
 echo "Setup Fullscreen Dashboard"
 echo "----------------------------------------------------------------"
