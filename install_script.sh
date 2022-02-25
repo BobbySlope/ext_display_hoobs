@@ -43,23 +43,6 @@ sudo apt-get update --yes
 #echo "----------------------------------------------------------------"
 #echo "Touchscreen Installed"
 #echo "----------------------------------------------------------------"
-echo " "
-echo "Setup Autologin to CLI...."
-sudo mkdir /lib/systemd/system/getty@tty1.service.d/
-cat > /lib/systemd/system/getty@tty1.service.d/20-autologin.conf <<EOL
-#Autologin to Console
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin hoobs --noclear %I $TERM
-EOL
-echo "----------------------------------------------------------------"
-echo "Autologin CLI Installed"
-echo "----------------------------------------------------------------"
-echo " "
-echo "install Fullscreen Dashboard...."
-sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
-sudo apt-get install firefox-esr -y
-
 #echo "set screen...."
 #sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
 #cat > /usr/share/X11/xorg.conf.d/99-fbturbo.conf <<EOL
@@ -72,78 +55,62 @@ sudo apt-get install firefox-esr -y
 #EndSection
 #EOL
 
-#echo "set wrapper...."
-#sudo rm -rf /etc/X11/Xwrapper.config
-#cat > /etc/X11/Xwrapper.config <<EOL
-#allowed_users=anybody
-#needs_root_rights=no
-#EOL
 
 
+echo "set openbox to start firefox with url...."
 cat > /etc/xdg/openbox/autostart  <<EOL
 # Disable any form of screen saver / screen blanking / power management
 xset s off
 xset s noblank
 xset -dpms
-
-# Allow quitting the X server with CTRL-ATL-Backspace
-#setxkbmap -option terminate:ctrl_alt_bksp
-# Deletes Chromium cache on startup
-#rm -Rf ~/.cache/chromium
-
-# Start Chromium in kiosk mode
-#sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
-#sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+#start firefox with url
 firefox-esr --kiosk http://localhost
 EOL
 
-
+echo "enable autostart openbox after login...."
 cat > .bash_profile <<EOL
 startx 
 EOL
 
 
 
-echo "add kiosk script...."
-sudo rm -rf /opt/kiosk.sh
-cat > /opt/kiosk.sh <<EOL
-#!/bin/sh
-xset dpms
-xset s noblank
-xset s 300
-openbox-session #&
-firefox-esr --kiosk http://localhost
-EOL
+#echo "add kiosk script...."
+#sudo rm -rf /opt/kiosk.sh
+#cat > /opt/kiosk.sh <<EOL
+##!/bin/sh
+#xset dpms
+#xset s noblank
+#xset s 300
+#openbox-session #&
+#firefox-esr --kiosk http://localhost
+#EOL
 
-echo "make script executable...."
-sudo chmod 755 /opt/kiosk.sh
+#echo "make script executable...."
+#sudo chmod 755 /opt/kiosk.sh
 
 
-echo "make service...."
-sudo rm -rf /etc/systemd/system/kiosk.service
-cat > /etc/systemd/system/kiosk.service <<EOL
-[Unit]
-Description=Kiosk
+#echo "make service...."
+#sudo rm -rf /etc/systemd/system/kiosk.service
+#cat > /etc/systemd/system/kiosk.service <<EOL
+#[Unit]
+#Description=Kiosk
+#[Service]
+#Type=oneshot
+#User=hoobs
+#ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
+#[Install]
+#WantedBy=multi-user.target
+#EOL
 
-[Service]
-Type=oneshot
-User=hoobs
-ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
-
-[Install]
-WantedBy=multi-user.target
-EOL
-
-echo "enable service...."
-
-sudo systemctl daemon-reload
-sudo systemctl enable kiosk
+#echo "enable service...."
+#sudo systemctl daemon-reload
+#sudo systemctl enable kiosk
 echo "----------------------------------------------------------------"
 echo "Setup Fullscreen Dashboard"
 echo "----------------------------------------------------------------"
-
-echo "rebooting now"
+echo "rebooting in 10secs"
 echo "----------------------------------------------------------------"
+sleep 10
 sudo reboot
 
 
