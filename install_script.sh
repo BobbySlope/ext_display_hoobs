@@ -98,6 +98,12 @@ chromium-browser --disable-infobars --kiosk 'http://localhost'
 EOL
 
 
+cat > .bash_profile <<EOL
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- 
+EOL
+
+
+
 #echo "add kiosk script...."
 #sudo rm -rf /opt/kiosk.sh
 #cat > /opt/kiosk.sh <<EOL
