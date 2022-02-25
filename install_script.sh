@@ -75,6 +75,8 @@ cat > /etc/xdg/openbox/autostart  <<EOL
 xset s off
 xset s noblank
 xset -dpms
+# Allow quitting the X server with CTRL-ATL-Backspace
+setxkbmap -option terminate:ctrl_alt_bksp
 #start firefox with url
 firefox-esr --kiosk http://localhost
 EOL
