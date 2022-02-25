@@ -30,29 +30,29 @@
 
 
 sudo apt-get update --yes
-echo "----------------------------------------------------------------"
-echo "This script will Setup the external Touchdisplay Widget for HOOBS"
-echo "----------------------------------------------------------------"
+#echo "----------------------------------------------------------------"
+#echo "This script will Setup the external Touchdisplay Widget for HOOBS"
+#echo "----------------------------------------------------------------"
 
-echo "Setup Touchscreen...."
-sudo rm -rf LCD-show
-git clone https://github.com/goodtft/LCD-show.git
-sudo chmod -R 755 LCD-show
-cd LCD-show/
+#echo "Setup Touchscreen...."
+#sudo rm -rf LCD-show
+#git clone https://github.com/goodtft/LCD-show.git
+#sudo chmod -R 755 LCD-show
+#cd LCD-show/
 sudo ./LCD35-show
-echo "----------------------------------------------------------------"
-echo "Touchscreen Installed"
-echo "----------------------------------------------------------------"
-echo "set screen...."
-sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
-cat > /usr/share/X11/xorg.conf.d/99-fbturbo.conf <<EOL
-Section "Device"
-        Identifier      "Allwinner A10/A13/A20 FBDEV"
-        Driver          "fbturbo"
-        Option          "fbdev" "/dev/fb1"
+#echo "----------------------------------------------------------------"
+#echo "Touchscreen Installed"
+#echo "----------------------------------------------------------------"
+#echo "set screen...."
+#sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
+#cat > /usr/share/X11/xorg.conf.d/99-fbturbo.conf <<EOL
+#Section "Device"
+#        Identifier      "Allwinner A10/A13/A20 FBDEV"
+#        Driver          "fbturbo"
+#        Option          "fbdev" "/dev/fb1"
 
-        Option          "SwapbuffersWait" "true"
-EndSection
+#        Option          "SwapbuffersWait" "true"
+#EndSection
 EOL
 
 
