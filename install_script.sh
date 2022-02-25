@@ -56,6 +56,18 @@ sudo apt-get update --yes
 #EOL
 
 
+echo "Setup Autologin to CLI...."
+sudo mkdir /lib/systemd/system/getty@tty1.service.d/
+cat > /lib/systemd/system/getty@tty1.service.d/20-autologin.conf <<EOL
+#Autologin to Console
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin hoobs --noclear %I $TERM
+EOL
+ 
+echo "install Fullscreen Dashboard...."
+sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
+sudo apt-get install firefox-esr -y
 
 echo "set openbox to start firefox with url...."
 cat > /etc/xdg/openbox/autostart  <<EOL
@@ -71,8 +83,6 @@ echo "enable autostart openbox after login...."
 cat > .bash_profile <<EOL
 startx 
 EOL
-
-
 
 #echo "add kiosk script...."
 #sudo rm -rf /opt/kiosk.sh
