@@ -34,10 +34,10 @@ sudo apt-get update --yes
 #echo "This script will Setup the external Touchdisplay Widget for HOOBS"
 #echo "----------------------------------------------------------------"
 
-#echo "Setup Touchscreen...."
-#sudo rm -rf LCD-show
-#git clone https://github.com/goodtft/LCD-show.git
-#sudo chmod -R 755 LCD-show
+echo "Setup Touchscreen...."
+sudo rm -rf LCD-show
+git clone https://github.com/goodtft/LCD-show.git
+sudo chmod -R 755 LCD-show
 sudo /LCD-show/LCD35-show
 #echo "----------------------------------------------------------------"
 #echo "Touchscreen Installed"
