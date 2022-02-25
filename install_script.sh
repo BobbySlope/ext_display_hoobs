@@ -90,6 +90,8 @@ xset -dpms
 
 # Allow quitting the X server with CTRL-ATL-Backspace
 setxkbmap -option terminate:ctrl_alt_bksp
+# Deletes Chromium cache on startup
+rm -Rf ~/.cache/chromium
 
 # Start Chromium in kiosk mode
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
