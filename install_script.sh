@@ -58,7 +58,7 @@ echo "----------------------------------------------------------------"
 echo " "
 echo "install Fullscreen Dashboard...."
 sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
-sudo apt-get install chromium -y
+sudo apt-get install firefox-esr -y
 
 #echo "set screen...."
 #sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
@@ -87,19 +87,19 @@ xset s noblank
 xset -dpms
 
 # Allow quitting the X server with CTRL-ATL-Backspace
-setxkbmap -option terminate:ctrl_alt_bksp
+#setxkbmap -option terminate:ctrl_alt_bksp
 # Deletes Chromium cache on startup
-rm -Rf ~/.cache/chromium
+#rm -Rf ~/.cache/chromium
 
 # Start Chromium in kiosk mode
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
-sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
-chromium-browser --disable-infobars --kiosk 'http://localhost'
+#sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+#sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+firefox-esr --kiosk http://localhost
 EOL
 
 
 cat > .bash_profile <<EOL
-[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- 
+startx 
 EOL
 
 
