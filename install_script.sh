@@ -105,7 +105,7 @@ xset dpms
 xset s noblank
 xset s 300
 openbox-session #&
-#chromium-browser --kiosk --incognito http://localhost
+chromium-browser --kiosk --incognito http://localhost
 EOL
 
 echo "make script executable...."
