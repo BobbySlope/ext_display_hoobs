@@ -38,8 +38,7 @@ sudo apt-get update --yes
 #sudo rm -rf LCD-show
 #git clone https://github.com/goodtft/LCD-show.git
 #sudo chmod -R 755 LCD-show
-#cd LCD-show/
-sudo ./LCD35-show
+sudo /LCD-show/LCD35-show
 #echo "----------------------------------------------------------------"
 #echo "Touchscreen Installed"
 #echo "----------------------------------------------------------------"
