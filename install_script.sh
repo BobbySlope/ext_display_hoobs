@@ -30,30 +30,30 @@
 
 
 sudo apt-get update --yes
-# echo "----------------------------------------------------------------"
-# echo "This script will Setup the external Touchdisplay Widget for HOOBS"
-# echo "----------------------------------------------------------------"
-#echo " "
-#echo "Setup Touchscreen...."
-#sudo rm -rf LCD-show
-#git clone https://github.com/goodtft/LCD-show.git
-#sudo chmod -R 755 LCD-show
-#cd LCD-show/
-#sudo ./LCD35-show
-#echo "----------------------------------------------------------------"
-#echo "Touchscreen Installed"
-#echo "----------------------------------------------------------------"
-#echo "set screen...."
-#sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
-#cat > /usr/share/X11/xorg.conf.d/99-fbturbo.conf <<EOL
-#Section "Device"
-#        Identifier      "Allwinner A10/A13/A20 FBDEV"
-#        Driver          "fbturbo"
-#        Option          "fbdev" "/dev/fb1"
-#
-#        Option          "SwapbuffersWait" "true"
-#EndSection
-#EOL
+echo "----------------------------------------------------------------"
+echo "This script will Setup the external Touchdisplay Widget for HOOBS"
+echo "----------------------------------------------------------------"
+
+echo "Setup Touchscreen...."
+sudo rm -rf LCD-show
+git clone https://github.com/goodtft/LCD-show.git
+sudo chmod -R 755 LCD-show
+cd LCD-show/
+sudo ./LCD35-show
+echo "----------------------------------------------------------------"
+echo "Touchscreen Installed"
+echo "----------------------------------------------------------------"
+echo "set screen...."
+sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
+cat > /usr/share/X11/xorg.conf.d/99-fbturbo.conf <<EOL
+Section "Device"
+        Identifier      "Allwinner A10/A13/A20 FBDEV"
+        Driver          "fbturbo"
+        Option          "fbdev" "/dev/fb1"
+
+        Option          "SwapbuffersWait" "true"
+EndSection
+EOL
 
 
 echo "Setup Autologin to CLI...."
@@ -84,37 +84,6 @@ cat > .bash_profile <<EOL
 startx 
 EOL
 
-#echo "add kiosk script...."
-#sudo rm -rf /opt/kiosk.sh
-#cat > /opt/kiosk.sh <<EOL
-##!/bin/sh
-#xset dpms
-#xset s noblank
-#xset s 300
-#openbox-session #&
-#firefox-esr --kiosk http://localhost
-#EOL
-
-#echo "make script executable...."
-#sudo chmod 755 /opt/kiosk.sh
-
-
-#echo "make service...."
-#sudo rm -rf /etc/systemd/system/kiosk.service
-#cat > /etc/systemd/system/kiosk.service <<EOL
-#[Unit]
-#Description=Kiosk
-#[Service]
-#Type=oneshot
-#User=hoobs
-#ExecStart=/usr/bin/startx /etc/X11/Xsession /opt/kiosk.sh
-#[Install]
-#WantedBy=multi-user.target
-#EOL
-
-#echo "enable service...."
-#sudo systemctl daemon-reload
-#sudo systemctl enable kiosk
 echo "----------------------------------------------------------------"
 echo "Setup Fullscreen Dashboard"
 echo "----------------------------------------------------------------"
