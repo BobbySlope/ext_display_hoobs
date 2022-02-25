@@ -28,12 +28,13 @@
 ##################################################################################################
 # Author: Bobby Slope     
 
+
+sudo apt-get update --yes
 # echo "----------------------------------------------------------------"
 # echo "This script will Setup the external Touchdisplay Widget for HOOBS"
 # echo "----------------------------------------------------------------"
 #echo " "
 #echo "Setup Touchscreen...."
-#sudo apt-get update --yes
 #sudo rm -rf LCD-show
 #git clone https://github.com/goodtft/LCD-show.git
 #sudo chmod -R 755 LCD-show
