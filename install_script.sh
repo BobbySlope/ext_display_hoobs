@@ -59,7 +59,7 @@ echo " "
 echo "install Fullscreen Dashboard...."
 sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
 sudo apt-get install --no-install-recommends chromium-browser -y
-sudo apt-get install lightdm -y
+#sudo apt-get install lightdm -y
 
 #echo "set screen...."
 #sudo rm -rf usr/share/X11/xorg.conf.d/99-fbturbo.conf
@@ -88,7 +88,7 @@ xset dpms
 xset s noblank
 xset s 300
 openbox-session &
-chromium --kiosk --incognito http://localhost
+chromium-browser --kiosk --incognito http://localhost
 EOL
 
 echo "make script executable...."
