@@ -85,19 +85,10 @@ cat > /opt/kiosk.sh <<EOL
 xset dpms
 xset s noblank
 xset s 300
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/'Local State'
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/; s/"exit_type":"[^"]\+"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
 openbox-session &
-chromium /
---no-first-run /
---disable /
---disable-translate /
---disable-infobars /
---disable-suggestions-service /
---disable-save-password-bubble /
---start-maximized /
---kiosk /
---disable-session-crashed-bubble /
---incognito /
-http://localhost
+chromium --kiosk --incognito http://localhost
 EOL
 
 echo "make script executable...."
