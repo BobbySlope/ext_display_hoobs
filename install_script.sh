@@ -28,8 +28,9 @@
 ##################################################################################################
 # Author: Bobby Slope     
 
-
+echo "Updating apt-get...."
 sudo apt-get update --yes
+
 echo "Setup Autologin to CLI...."
 sudo mkdir /lib/systemd/system/getty@tty1.service.d/
 cat > /lib/systemd/system/getty@tty1.service.d/20-autologin.conf <<EOL
@@ -39,7 +40,7 @@ ExecStart=
 ExecStart=-/sbin/agetty --autologin hoobs --noclear %I $TERM
 EOL
  
-echo "install Fullscreen Dashboard...."
+echo "install openbox and firefox-esr...."
 DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
 sudo apt-get install firefox-esr -y
 
@@ -61,7 +62,7 @@ startx
 EOL
 
 echo "----------------------------------------------------------------"
-echo "Setup Fullscreen Dashboard"
+echo "Setup successful"
 echo "----------------------------------------------------------------"
 echo "rebooting in 10secs"
 echo "----------------------------------------------------------------"
