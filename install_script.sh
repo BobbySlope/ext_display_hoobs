@@ -30,15 +30,6 @@
 
 echo "Updating apt-get...."
 sudo apt-get update --yes
-
-echo "Setup Autologin to CLI...."
-sudo mkdir /lib/systemd/system/getty@tty1.service.d/
-cat > /lib/systemd/system/getty@tty1.service.d/20-autologin.conf <<EOL
-#Autologin to Console
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin hoobs --noclear %I $TERM
-EOL
  
 echo "install openbox and firefox-esr...."
 DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends xserver-xorg x11-xserver-utils xinit xserver-xorg-video-fbdev openbox -y
@@ -59,6 +50,15 @@ EOL
 echo "enable autostart openbox after login...."
 cat > .bash_profile <<EOL
 startx 
+EOL
+
+echo "enable autologin for user hoobs to CLI...."
+sudo mkdir /lib/systemd/system/getty@tty1.service.d/
+cat > /lib/systemd/system/getty@tty1.service.d/20-autologin.conf <<EOL
+#Autologin to Console
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin hoobs --noclear %I $TERM
 EOL
 
 echo "----------------------------------------------------------------"
